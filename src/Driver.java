@@ -16,18 +16,15 @@ public class Driver {
             'u', 'u', 'u', 'v', 'v', 'w', 'w', 'x', 'y', 'y', 'z'};
     public static Scanner scan = new Scanner(System.in);
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-        //@SuppressWarnings("unused")
+    public static void main(String[] args) throws IOException {
         Dictionary dic = new Dictionary(new File("dictionary.txt"));
-
-        ScrambleGrid grid = generateGrid(250, 10);
+        ScrambleGrid grid = generateGrid(dic,250, 10);
 
         System.out.println(grid);
         printSolution(grid.solve());
-
     }
 
-    public static String readGrid() {
+    public static ScrambleGrid readGrid(Dictionary dic) {
         System.out.println("Please enter the grid as a String, left to right and top to bottom.");
         String gridStr = scan.next();
 
@@ -40,7 +37,7 @@ public class Driver {
             strLength = gridStr.length();
         }
         if (!gridStr.equalsIgnoreCase("zzz"))
-            return gridStr;
+            return new ScrambleGrid(dic, gridStr);
         else
             return null;
     }
@@ -52,10 +49,9 @@ public class Driver {
     }
 
 
-    public static ScrambleGrid generateGrid(int minWords, int minLength) throws FileNotFoundException, IOException {
+    public static ScrambleGrid generateGrid(Dictionary dic, int minWords, int minLength) {
         System.out.println("Generating grid...");
         String gridStr = "";
-        Dictionary dic = new Dictionary(new File("dictionary.txt"));
 
         Set<String> words = Collections.emptySet();
         String longestWord = "";
